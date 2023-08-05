@@ -18,7 +18,7 @@ $ pip install cookiecutter
 To start a new project, run:
 ------------
 
-    cookiecutter https://github.com/gorgias/gorgias-ml-cookicutter
+    cookiecutter https://github.com/julien-heysam/ml-cookicutter.git
 
 
 [![asciicast](https://asciinema.org/a/244658.svg)](https://asciinema.org/a/244658)
