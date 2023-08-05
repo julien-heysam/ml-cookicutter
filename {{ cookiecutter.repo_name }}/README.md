@@ -14,8 +14,6 @@ pre-commit install
 ```
 Please use `make lint` to clean your project, it will run `black, isort, and flake8`, *black* is already available in pre-commit hook
 
-if you just created the project, please use the command `make create_gcs_bucket` to generate the required bucket for the project
-
 #### Build the doc:
 
 ```

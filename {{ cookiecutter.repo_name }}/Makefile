@@ -102,13 +102,6 @@ endif
 install_spacy_models:
 	$(PYTHON_INTERPRETER) -m spacy download xx_ent_wiki_sm
 
-
-## Create bucket on gcs
-create_gcs_bucket:
-	gcloud alpha storage buckets create gs://gorgias-ml-development-$(PROJECT_NAME) --project=gorgias-ml-development --default-storage-class=STANDARD --location=US-EAST1 --uniform-bucket-level-access
-	gcloud alpha storage buckets create gs://gorgias-ml-staging-$(PROJECT_NAME) --project=gorgias-ml-staging --default-storage-class=STANDARD --location=US-EAST1 --uniform-bucket-level-access
-	gcloud alpha storage buckets create gs://gorgias-ml-production-$(PROJECT_NAME) --project=gorgias-ml-production --default-storage-class=STANDARD --location=US-EAST1 --uniform-bucket-level-access
-
 ## Build doc
 build_doc:
 	cd docs && sphinx-apidoc -o source/ ../src && make clean && make html
@@ -120,19 +113,18 @@ run_fastapi_uvicorn:
 ## Run the fastapi
 run_fastapi_gunicorn:
 	gunicorn -c src/interface/wsgi/gunicorn_hooks.py src.interface.wsgi.app:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:80
-# gunicorn src.interface.wsgi.app:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:80
 
 ## Build imagegit a
 build_linux_image:
-	docker buildx build --platform linux/amd64 -t gcr.io/gorgias-ml-development/$(PROJECT_NAME):latest -f Dockerfile .
-
-## Push image
-push_image:
-	docker push gcr.io/gorgias-ml-development/$(PROJECT_NAME):latest
+	docker buildx build --platform linux/amd64 -t gcr.io/image-ml-development/$(PROJECT_NAME):latest -f Dockerfile .
 
 ## Build local image
 build_mac_image:
-	docker build -t gcr.io/gorgias-ml-locale/$(PROJECT_NAME):latest -f Dockerfile .
+	docker build -t gcr.io/image-ml-locale/$(PROJECT_NAME):latest -f Dockerfile .
+
+## Push image
+push_image:
+	docker push gcr.io/image-ml-development/$(PROJECT_NAME):latest
 
 ## Run the docker image
 run_docker:
