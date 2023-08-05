@@ -1,0 +1,6 @@
+# local package
+-e .
+
+# external requirements
+python-dotenv==1.0.0
+rich==13.3.5

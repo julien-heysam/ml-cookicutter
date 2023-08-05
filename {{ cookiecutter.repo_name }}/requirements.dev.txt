@@ -1,0 +1,11 @@
+-r requirements.txt
+black
+coverage
+kfp
+pre-commit
+pytest
+pytest-cov
+Sphinx
+sphinx_mdinclude
+streamlit
+tox
