@@ -56,8 +56,6 @@ class ProjectPaths(BaseSettings):
 
 
 class ProjectEnvs(BaseSettings):
-    PROJECT_BUCKET: str = os.environ.get("PROJECT_BUCKET", "gs://{{ cookiecutter.project_name }}")
-    PROJECT_ID: str = os.environ.get("GCP_PROJECT_ID", "ml-production")
     ENV_STATE: str = os.environ.get("ENV_STATE", "production")
 
 
