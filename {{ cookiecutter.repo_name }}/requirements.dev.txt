@@ -3,6 +3,7 @@ black
 coverage
 kfp
 pre-commit
+pydantic-settings
 pytest
 pytest-cov
 Sphinx
