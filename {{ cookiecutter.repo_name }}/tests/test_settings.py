@@ -14,7 +14,6 @@ def test_api_keys():
             "PINECONE_API_KEY": "test_pinecone_api_key",
             "NOTION_API_KEY": "test_notion_api_key",
             "OPENAI_API_KEY": "test_openai_api_key",
-            "API_KEY": "test_API_KEY",
             "PROMPTLAYER_API_KEY": "test_promptlayer_api_key",
             "APIFY_API_TOKEN": "test_apify_api_token",
         }
@@ -29,7 +28,6 @@ def test_api_keys():
         assert os.environ.get("PINECONE_API_KEY") == keys["PINECONE_API_KEY"]
         assert os.environ.get("NOTION_API_KEY") == keys["NOTION_API_KEY"]
         assert os.environ.get("OPENAI_API_KEY") == keys["OPENAI_API_KEY"]
-        assert os.environ.get("API_KEY") == keys["API_KEY"]
         assert os.environ.get("PROMPTLAYER_API_KEY") == keys["PROMPTLAYER_API_KEY"]
         assert os.environ.get("APIFY_API_TOKEN") == keys["APIFY_API_TOKEN"]
 
@@ -43,17 +41,9 @@ def test_project_paths():
     assert PROJECT_PATHS.INTERIM_DATA.is_dir()
     assert PROJECT_PATHS.PROCESSED_DATA.is_dir()
     assert PROJECT_PATHS.RAW_DATA.is_dir()
-    assert PROJECT_PATHS.EVALUATION_DATA.is_dir()
     assert PROJECT_PATHS.MODEL_DATA.is_dir()
 
 
 def test_processing_var():
     assert isinstance(PROCESSING_VAR.MIN_NUMBER_WORDS, int)
     assert isinstance(PROCESSING_VAR.MAX_NUMBER_WORDS, int)
-
-
-def test_gorgias_ml_api():
-    assert GORGIAS_ML_API.ROOT_URL.startswith("https://")
-    assert isinstance(GORGIAS_ML_API.QUESTION_EXTRACTION_ENDPOINT, str)
-    assert isinstance(GORGIAS_ML_API.MACRO_SEARCH_ENDPOINT, str)
-    assert isinstance(GORGIAS_ML_API.HELP_CENTER_SEARCH_ENDPOINT, str)

@@ -26,7 +26,6 @@ class ModelVar(BaseSettings):
 
 
 class ApiKeys(BaseSettings):
-    API_KEY: str = os.environ.get("API_KEY", "")
     PINECONE_ENV: str = os.environ.get("PINECONE_ENV", "")
     COMET_API_KEY: str = os.environ.get("COMET_API_KEY", "")
     NOTION_API_KEY: str = os.environ.get("NOTION_API_KEY", "")
@@ -50,7 +49,6 @@ class ProjectPaths(BaseSettings):
     INTERIM_DATA: Path = DATA_PATH / "interim"
     EXTERNAL_DATA: Path = DATA_PATH / "external"
     PROCESSED_DATA: Path = DATA_PATH / "processed"
-    EVALUATION_DATA: Path = DATA_PATH / "evaluation"
 
     MODEL_DATA: Path = ROOT_PATH / "models"
 
