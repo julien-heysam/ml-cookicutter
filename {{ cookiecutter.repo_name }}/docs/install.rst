@@ -9,7 +9,7 @@ Setup
 
     ``make create_environment  # will create a virtual-env and create an alias to connect``
 
-    ``work_on_gorgias-ai``
+    ``work_on_..``
 
     ``make dev-install  # this will install all required dependencies``
 
