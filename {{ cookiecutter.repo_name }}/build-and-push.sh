@@ -2,10 +2,10 @@
 
 IMAGE_NAME={{cookiecutter.project_name}}
 IMAGE_LABEL=latest
-ENVIRONMENT=gorgias-ml-development
+ENVIRONMENT=env
 DOCKER_FILE=Dockerfile
 
-IMAGE_TAG="gcr.io/${ENVIRONMENT}/${IMAGE_NAME}:${IMAGE_LABEL}"
+IMAGE_TAG="${ENVIRONMENT}/${IMAGE_NAME}:${IMAGE_LABEL}"
 
 docker buildx build --platform linux/amd64 -t ${IMAGE_TAG} -f ${DOCKER_FILE} .
 docker push ${IMAGE_TAG}
