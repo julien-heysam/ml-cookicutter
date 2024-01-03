@@ -6,13 +6,6 @@ PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 PROJECT_NAME = {{ cookiecutter.project_name }}
 PYTHON_INTERPRETER = {{ cookiecutter.python_interpreter }}
 
-ifeq (,$(shell which conda))
-    HAS_CONDA=False
-else
-    HAS_CONDA=True
-endif
-HAS_CONDA=False
-
 ifeq (,$(shell which zsh))
     EXPORT_FILE="bashrc"
 else
@@ -23,6 +16,10 @@ endif
 # COMMANDS                                                                      #
 #################################################################################
 
+## Format code with black
+format:
+	./venv/bin/python -m black src
+
 ## Install Python dev Dependencies
 dev-install: requirements.dev.txt
 	./venv/bin/python -m pip install -U pip setuptools wheel
@@ -32,10 +29,6 @@ dev-install: requirements.dev.txt
 prod-install: requirements.txt
 	./venv/bin/python -m pip install -U pip setuptools wheel
 	./venv/bin/python -m pip install -r requirements.txt
-
-## Run streamlit app
-run_st: dev-install
-	./venv/bin/python -m streamlit run streamlit_app.py
 
 ## Lint
 lint: dev-install
@@ -58,10 +51,18 @@ clean:
 clean_venv:
 	rm -rf venv
 
-## Install Python Dependencies
+## Tests
 tox: create_environment requirements.dev.txt
 	rm -rf .tox
 	./venv/bin/python -m tox
+
+## Run Tests
+cov-test:
+	./venv/bin/python -m pytest -ra -v --disable-warnings --cov-report=html:coverage --cov-config=pyproject.toml --cov-report=term-missing --cov=. --cov-fail-under=5 ./tests
+
+## Run Tests
+cicd-test:
+	./venv/bin/python -m pytest -ra -v --disable-warnings --cov-report=html:coverage --cov-config=pyproject.toml --cov-report=term-missing --cov=. --cov-fail-under=5 ./tests
 
 ## Run Test
 test: lint
@@ -81,11 +82,6 @@ commit: lint
 
 ## Set up python interpreter environment
 create_environment:
-ifeq (True, $(HAS_CONDA))
-	@echo ">>> Detected conda, creating conda environment."
-	conda create --name $(PROJECT_NAME) python=$(PYTHON_INTERPRETER)
-	@echo ">>> New conda env created. Activate with:\nsource activate $(PROJECT_NAME)"
-else
 	$(PYTHON_INTERPRETER) -m pip install virtualenv
 	@echo ">>> Installing virtualenv if not already installed.\nMake sure the following lines are in shell startup file"
 	@bash -c "${PYTHON_INTERPRETER} -m venv venv"
@@ -93,7 +89,6 @@ else
 	@echo "alias work_on_$(PROJECT_NAME)=\"source $(PWD)/venv/bin/activate\" >> ~/.$(EXPORT_FILE)"
 	@bash -c "grep -qxF 'alias work_on_$(PROJECT_NAME)=\"source $(PWD)/venv/bin/activate\"' ~/.$(EXPORT_FILE) || echo 'alias work_on_$(PROJECT_NAME)=\"source $(PWD)/venv/bin/activate\"' >> ~/.$(EXPORT_FILE)"
 	@echo ">>> New virtualenv created. Activate with:\nwork_on_$(PROJECT_NAME)"
-endif
 
 #################################################################################
 # PROJECT RULES                                                                 #
@@ -106,6 +101,10 @@ install_spacy_models:
 build_doc:
 	cd docs && sphinx-apidoc -o source/ ../src && make clean && make html
 
+## Run streamlit app
+run_st: dev-install
+	./venv/bin/python -m streamlit run streamlit_app.py
+
 # Run the fastapi
 run_fastapi_uvicorn:
 	uvicorn src.interface.wsgi.app:app --workers 4 --host 0.0.0.0 --port 80
@@ -116,15 +115,15 @@ run_fastapi_gunicorn:
 
 ## Build imagegit a
 build_linux_image:
-	docker buildx build --platform linux/amd64 -t gcr.io/image-ml-development/$(PROJECT_NAME):latest -f Dockerfile .
+	docker buildx build --platform linux/amd64 -t gcr.io/image-linux/$(PROJECT_NAME):latest -f Dockerfile .
 
 ## Build local image
 build_mac_image:
-	docker build -t gcr.io/image-ml-locale/$(PROJECT_NAME):latest -f Dockerfile .
+	docker build -t gcr.io/image-mac/$(PROJECT_NAME):latest -f Dockerfile .
 
 ## Push image
 push_image:
-	docker push gcr.io/image-ml-development/$(PROJECT_NAME):latest
+	docker push gcr.io/image-linux/$(PROJECT_NAME):latest
 
 ## Run the docker image
 run_docker:

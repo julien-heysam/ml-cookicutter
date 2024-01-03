@@ -9,15 +9,11 @@ Setup
 
     ``make create_environment  # will create a virtual-env and create an alias to connect``
 
-    ``work_on_gorgias-ai``
-
     ``make dev-install  # this will install all required dependencies``
 
     ``pre-commit install``
 
 Please use `make lint` to clean your project, it will run `black, isort, and flake8`, *black* is already available in pre-commit hook
-
-if you just created the project, please use the command `make create_gcs_bucket` to generate the required bucket for the project
 
 Variables .env
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -27,14 +27,6 @@ Prepare your environment
 
    install.rst
 
-
-GCP config
-================
-
-::
-
-   gcloud auth application-default login
-
 Module Index
 ============
 
@@ -55,17 +47,7 @@ Here you can check all the functions alphabetical order
 
    generateindex.rst
 
-Scores gorgias-ai
-============
-
-Here is a summary report for gorgias-ai scores
-
-.. toctree::
-   :maxdepth: 4
-
-   scores.rst
-
-Run tests gorgias-ai
+Run tests
 ============
 
 Here is how to run the tests locally

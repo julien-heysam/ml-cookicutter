@@ -1,7 +1,9 @@
 -r requirements.txt
+
 black
 coverage
-kfp
+dvc
+dvc-gdrive
 pre-commit
 pydantic-settings
 pytest

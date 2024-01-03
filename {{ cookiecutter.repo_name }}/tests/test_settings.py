@@ -42,8 +42,3 @@ def test_project_paths():
     assert PROJECT_PATHS.PROCESSED_DATA.is_dir()
     assert PROJECT_PATHS.RAW_DATA.is_dir()
     assert PROJECT_PATHS.MODEL_DATA.is_dir()
-
-
-def test_processing_var():
-    assert isinstance(PROCESSING_VAR.MIN_NUMBER_WORDS, int)
-    assert isinstance(PROCESSING_VAR.MAX_NUMBER_WORDS, int)

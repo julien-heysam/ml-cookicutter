@@ -21,8 +21,7 @@ class ModelVar(BaseSettings):
     TEMPERATURE: float = 0.2
     PRICE_PER_TOKENS_INPUT: float = 0.0015 / 1000
     PRICE_PER_TOKENS_OUTPUT: float = 0.002 / 1000
-    LLM_MODEl: str = "gpt-4"  # "gpt-3.5-turbo-16k-0613"
-    USE_EVALUATION_LAYER: bool = True
+    LLM_MODEl: str = "gpt-4"
 
 
 class ApiKeys(BaseSettings):
@@ -57,13 +56,7 @@ class ProjectEnvs(BaseSettings):
     ENV_STATE: str = os.environ.get("ENV_STATE", "production")
 
 
-class ProcessingVar(BaseSettings):
-    MIN_NUMBER_WORDS: int = 4
-    MAX_NUMBER_WORDS: int = 512
-
-
 MODEL_VAR = ModelVar()
-PROCESSING_VAR = ProcessingVar()
 PROJECT_ENV = ProjectEnvs()
 PROJECT_PATHS = ProjectPaths()
 API_KEYS = ApiKeys()
