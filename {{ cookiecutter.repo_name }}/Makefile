@@ -107,11 +107,15 @@ run_st: dev-install
 
 # Run the fastapi
 run_fastapi_uvicorn:
-	uvicorn src.interface.wsgi.app:app --workers 4 --host 0.0.0.0 --port 80
+	uvicorn src.interface.wsgi.app:app --workers 1 --host 0.0.0.0  --port 8001 --reload --reload-include .env
+
+# Run the fastapi
+run_fastapi_uvicorn_dd:
+	DD_SERVICE="$(PROJECT_NAME)" DD_ENV="prod" DD_LOGS_INJECTION=true ddtrace-run uvicorn src.interface.wsgi.app:app --workers 1 --host 0.0.0.0 --port 8001 --reload --reload-include .env
 
 ## Run the fastapi
 run_fastapi_gunicorn:
-	gunicorn -c src/interface/wsgi/gunicorn_hooks.py src.interface.wsgi.app:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:80
+	gunicorn -c src/interface/wsgi/gunicorn_hooks.py src.interface.wsgi.app:app --workers 1 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8001 --reload-include .env
 
 ## Build imagegit a
 build_linux_image:
@@ -128,6 +132,18 @@ push_image:
 ## Run the docker image
 run_docker:
 	docker-compose up
+
+## Alembic migration
+run_alembic_revision:
+	cd src && alembic revision --autogenerate -m $(message)
+
+# Build the Docker image
+build_docker_image:
+	docker build -t $(PROJECT_NAME) .
+
+# Run tests inside the Docker container
+run_tests_in_docker: build_docker_image
+	docker run -it $(PROJECT_NAME) pytest -ra -v --disable-warnings --cov-report=html:coverage --cov-config=pyproject.toml --cov-report=term-missing --cov=. --cov-fail-under=5 ./tests
 
 #################################################################################
 # Self Documenting Commands                                                     #

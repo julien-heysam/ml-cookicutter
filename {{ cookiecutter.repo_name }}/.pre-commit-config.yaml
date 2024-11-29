@@ -1,13 +1,6 @@
 repos:
-  - repo: https://github.com/gruntwork-io/pre-commit
-    rev: 'v0.1.17' # latest on https://github.com/gruntwork-io/pre-commit/releases
-    hooks:
-      - id: terraform-fmt
-        name: Check terraform format
-      - id: terraform-validate
-        name: Validate terraform files
   -   repo: https://github.com/pre-commit/pre-commit-hooks
-      rev: v4.1.0
+      rev: v4.5.0
       hooks:
         - id: check-added-large-files
           name: Check for added large files
@@ -16,8 +9,6 @@ repos:
           name: Check JSON
         - id: detect-private-key
           name: Check for Sensitive Private keys
-        - id: requirements-txt-fixer
-          name: Reorder Requirements txt
         - id: check-toml
           name: Check Toml
           entry: check-toml
@@ -36,11 +27,30 @@ repos:
           entry: trailing-whitespace-fixer
           types: [text]
           stages: [commit, push, manual]
-  - repo: local
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.4.9
     hooks:
-    - id: black
-      name: black
-      entry: black ./
-      args: [-l 120]
-      language: system
-      types: [python]
+      - id: ruff
+        args: [--line-length=120, --fix, --exit-non-zero-on-fix]
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.10.0
+    hooks:
+    -   id: mypy
+        args:
+          - "--no-strict-optional"
+          - "--ignore-missing-imports"
+          - "--disable-error-code"
+          - "attr-defined"
+          - "--disable-error-code"
+          - "assignment"
+        additional_dependencies: [types-PyYAML, types-requests, types-python-dateutil>=2.8.19]
+  - repo: https://github.com/pre-commit/mirrors-isort
+    rev: v5.9.3
+    hooks:
+      - id: isort
+        args: ["--skip=requirements.txt", "--skip=requirements.dev.txt"]
+  - repo: https://github.com/psf/black
+    rev: 24.4.2
+    hooks:
+      - id: black
+        args: [-l 120]

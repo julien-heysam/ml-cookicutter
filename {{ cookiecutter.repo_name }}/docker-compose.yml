@@ -1,24 +1,37 @@
-
-version: "3"
-
+version: "3.9"
 services:
-  app:
-    image: ${IMAGE:-gcr.io/gorgias-ml-locale/{{cookiecutter.project_name}}:latest}
-    hostname: app
+  api:
+    build: .
+    hostname: $(cookiecutter.repo_name)
     restart: always
-    environment:
-      REDIS_HOST: "redis"
-      REDIS_PORT: "6379"
-      REDIS_TIMEOUT: 0.5
-    links:
-      - redis
     ports:
-      - "8000:8000"
+      - "8001:8001"
+    environment:
+      - ENV_STATE=DEV
+      - DATABASE_URI=postgresql://${POSTGRES_DATABASE_USERNAME}:${POSTGRES_DATABASE_PASSWORD}@postgres:5432/${POSTGRES_DATABASE_NAME}
+      # Add other environment variables here
+    depends_on:
+      - postgres
+    networks:
+      - app-network
     env_file:
       - .env
 
-  redis:
-    hostname: redis
-    image: redis
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=${POSTGRES_DATABASE_USERNAME}
+      - POSTGRES_PASSWORD=${POSTGRES_DATABASE_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DATABASE_NAME}
     ports:
-      - "6379:6379"
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+volumes:
+  postgres_data:
+
+networks:
+  app-network:

@@ -1,14 +1,11 @@
 -r requirements.txt
 
-black
-coverage
-dvc
-dvc-gdrive
-pre-commit
-pydantic-settings
-pytest
-pytest-cov
-Sphinx
-sphinx_mdinclude
-streamlit
-tox
+black>=24.4.2
+dvc>=3.51.2
+dvc-gdrive>=3.0.1
+pre-commit>=3.7.1
+Sphinx>=7.3.7
+sphinx_mdinclude>=0.6.1
+tox>=4.11.4
+apscheduler>=3.10.4
+locust==2.32.1
