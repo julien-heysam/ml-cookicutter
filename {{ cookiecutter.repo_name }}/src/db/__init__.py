@@ -1,3 +1,3 @@
 from src.db.db import Base
 
-__all__ = [Base]
+__ALL__ = [Base]
