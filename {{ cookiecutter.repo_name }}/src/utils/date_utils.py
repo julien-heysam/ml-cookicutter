@@ -1,6 +1,7 @@
 import math
 from datetime import date, datetime
 
+
 class DateUtils:
     @staticmethod
     def readable_today_date() -> str:

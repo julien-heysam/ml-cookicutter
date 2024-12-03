@@ -20,7 +20,7 @@ from src import logging
 
 logger = logging.getLogger(__name__)
 
-class AWSManager:
+class AWSUtils:
     """Manages AWS operations including S3, Secrets Manager, and SSM Parameter Store."""
     
     def __init__(self, region: str = "us-east-1", account_id: str = "641949442254"):
@@ -170,5 +170,5 @@ class AWSManager:
 
 
 if __name__ == "__main__":
-    aws_manager = AWSManager()
+    aws_manager = AWSUtils()
     res = aws_manager.get_ssm_parameter("OPENAI_API_KEY")

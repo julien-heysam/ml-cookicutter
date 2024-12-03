@@ -7,7 +7,7 @@ import markdown  # type: ignore
 from bs4 import BeautifulSoup
 
 
-class TextProcessor:
+class TextUtils:
     """A class for handling various text processing operations."""
 
     @staticmethod
@@ -51,7 +51,7 @@ class TextProcessor:
             if isinstance(value, list):
                 return f"[{', '.join(format_value(item) for item in value)}]"
             elif isinstance(value, dict):
-                return f"{{{TextProcessor.dict_to_string(value)}}}"
+                return f"{{{TextUtils.dict_to_string(value)}}}"
             return str(value)
 
         return " | ".join(f"{key}: {format_value(value)}" for key, value in data.items())

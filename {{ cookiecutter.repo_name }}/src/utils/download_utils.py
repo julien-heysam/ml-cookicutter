@@ -16,7 +16,7 @@ from rich.progress import (
     TransferSpeedColumn,
 )
 
-class DownloadManager:
+class DownloadUtils:
     def __init__(self, max_workers: int = 4):
         """Initialize the download manager.
         

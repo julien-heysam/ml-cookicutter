@@ -1,7 +1,7 @@
 import json
 from typing import Any, Dict, List, TypeVar, Union, Optional
 
-from src.utils.text_utils import sanitize_string
+from src.utils.text_utils import TextUtils
 
 T = TypeVar('T')
 
@@ -52,7 +52,7 @@ class DictionaryUtils:
         elif isinstance(data, list):
             return [DictionaryUtils.sanitize_json(item) for item in data]
         elif isinstance(data, str):
-            return sanitize_string(data)
+            return TextUtils.sanitize_string(data)
         return data
 
     @staticmethod

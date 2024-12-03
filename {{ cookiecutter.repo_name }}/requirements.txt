@@ -1,5 +1,9 @@
 -e .
 
+## Db
+alembic==1.13.1
+psycopg2==2.9.9
+
 # Logging
 rich==13.3.5
 python-json-logger==2.0.7

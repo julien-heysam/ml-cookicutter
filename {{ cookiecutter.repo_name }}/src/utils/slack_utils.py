@@ -4,7 +4,7 @@ import logging
 import requests
 
 from src import PROJECT_ENVS
-from src.constants import Envs, SlackApps
+from src.constants import Envs
 
 logger = logging.getLogger(__name__)
 
@@ -115,6 +115,6 @@ class SlackNotifier:
 
 
 if __name__ == "__main__":
-    notifier = SlackNotifier("bot_id_123", "data_processing_task", SlackApps.WEB)
+    notifier = SlackNotifier("bot_id_123", "data_processing_task", "https://hooks.slack.com/services/...")
     notifier.post_message("Data processing started successfully. Monitoring the task.")
     notifier.post_error("Bot ID not found during execution.")
