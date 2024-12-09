@@ -51,7 +51,7 @@ class TextUtils:
             if isinstance(value, list):
                 return f"[{', '.join(format_value(item) for item in value)}]"
             elif isinstance(value, dict):
-                return f"{{{TextUtils.dict_to_string(value)}}}"
+                return self.dict_to_string(value)
             return str(value)
 
         return " | ".join(f"{key}: {format_value(value)}" for key, value in data.items())
